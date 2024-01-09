@@ -1,0 +1,42 @@
+BUILD.SBT
+
+ThisBuild / version := "0.1.0-SNAPSHOT"
+
+ThisBuild / scalaVersion := "3.1.3"
+
+lazy val root = (project in file("."))
+  .settings(
+    name := "Oliver",
+    libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.6.18",
+    libraryDependencies += "com.typesafe.akka" %% "akka-slf4j" % "2.6.18"
+  )
+
+
+MAIN
+
+package com.reactiva.proyecto
+
+import akka.actor.{Actor, ActorSystem, Props}
+
+object Main extends App {
+        val system = ActorSystem("MiSistema")
+        val miActor = system.actorOf(Props[MiActor], "miActor")
+
+        miActor ! "Hola, Akka!"
+
+        system.terminate()
+}
+
+
+
+MIACTOR
+
+package com.reactiva.proyecto.MiActor
+
+import akka.actor.{Actor, ActorSystem, Props}
+
+class MiActor extends Actor {
+  def receive: Receive = {
+    case mensaje: String => println(s"Mensaje recibido: $mensaje")
+  }
+}
