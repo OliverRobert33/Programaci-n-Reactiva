@@ -1,42 +1,17 @@
-BUILD.SBT
+Este código en Scala utiliza el framework Akka para crear un sistema de actores simple y enviar un mensaje a uno de esos actores. Ahora, te explicaré línea por línea lo que hace:
 
-ThisBuild / version := "0.1.0-SNAPSHOT"
+1. **`import akka.actor.{Actor, ActorSystem, Props}`**: Importa las clases necesarias de Akka. `ActorSystem` es el contenedor principal para los actores, `Actor` es la clase base para definir actores y `Props` se utiliza para configurar y crear instancias de actores.
 
-ThisBuild / scalaVersion := "3.1.3"
+2. **`object Main extends App`**: Define un objeto singleton llamado `Main` que extiende la clase `App`. Esto significa que este objeto puede ejecutar código como una aplicación de consola.
 
-lazy val root = (project in file("."))
-  .settings(
-    name := "Oliver",
-    libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.6.18",
-    libraryDependencies += "com.typesafe.akka" %% "akka-slf4j" % "2.6.18"
-  )
+3. **`val system = ActorSystem("EjemploSystem")`**: Crea una instancia de `ActorSystem` llamada "EjemploSystem". El `ActorSystem` es el contenedor principal para todos los actores en una aplicación Akka.
 
+4. **`class MiActor extends Actor`**: Define una clase `MiActor` que extiende la clase base de Akka `Actor`. En el método `receive`, se especifica cómo el actor manejará los mensajes que recibe. En este caso, simplemente imprime en la consola el mensaje recibido si es de tipo `String`.
 
-MAIN
+5. **`val miActor = system.actorOf(Props[MiActor], "miActor")`**: Crea una instancia del actor `MiActor` utilizando el método `actorOf` del sistema de actores. El segundo parámetro es el nombre del actor, en este caso, "miActor".
 
-package com.reactiva.proyecto
+6. **`miActor ! "Hola, Akka!"`**: Envia un mensaje al actor `miActor`. En este caso, el mensaje es un simple `String`: "Hola, Akka!".
 
-import akka.actor.{Actor, ActorSystem, Props}
+7. **`system.terminate()`**: Detiene el sistema de actores después de enviar el mensaje. Esto es importante para cerrar de manera ordenada el sistema de actores y liberar los recursos.
 
-object Main extends App {
-        val system = ActorSystem("MiSistema")
-        val miActor = system.actorOf(Props[MiActor], "miActor")
-
-        miActor ! "Hola, Akka!"
-
-        system.terminate()
-}
-
-
-
-MIACTOR
-
-package com.reactiva.proyecto.MiActor
-
-import akka.actor.{Actor, ActorSystem, Props}
-
-class MiActor extends Actor {
-  def receive: Receive = {
-    case mensaje: String => println(s"Mensaje recibido: $mensaje")
-  }
-}
+En resumen, el código establece un sistema de actores, define un actor simple (`MiActor`), crea una instancia de ese actor, envía un mensaje al actor y luego cierra el sistema de actores. El actor simplemente imprime en la consola cualquier mensaje de tipo `String` que reciba. Este es un ejemplo básico de cómo trabajar con actores en Akka.
