@@ -1,47 +1,22 @@
-import akka.actor.{Actor, ActorRef, ActorSystem, Props}
-
-// Define mensajes
-case class IniciarProceso()
-
-// Actor principal que coordina el flujo de trabajo
-class Coordinador extends Actor {
-  // Crea actores secundarios
-  val actorA: ActorRef = context.actorOf(Props[ActorA](), "actorA")
-  val actorB: ActorRef = context.actorOf(Props[ActorB](), "actorB")
-
-  def receive: Receive = {
-    case IniciarProceso =>
-      // Inicia el proceso enviando un mensaje al Actor A
-      actorA ! IniciarProceso
-  }
-}
-
-// Actor A que realiza una tarea y pasa el resultado al Actor B
-class ActorA extends Actor {
-  def receive: Receive = {
-    case IniciarProceso =>
-      // Simula una tarea y envía el resultado al Actor B
-      val resultado = "Resultado de la tarea en ActorA"
-      context.actorSelection("/user/actorB") ! resultado
-  }
-}
-
-// Actor B que recibe el resultado del Actor A y realiza otra tarea
-class ActorB extends Actor {
-  def receive: Receive = {
-    case resultado: String =>
-      // Simula otra tarea utilizando el resultado del Actor A
-      println(s"ActorB recibe: $resultado")
-  }
-}
+import akka.actor.{Actor, ActorSystem, Props}
 
 object Main extends App {
-  // Crea el sistema de actores
-  val system: ActorSystem = ActorSystem("SistemaActores")
+  // Crea un sistema de actores
+  val system = ActorSystem("EjemploSystem")
 
-  // Crea el actor coordinador
-  val coordinador: ActorRef = system.actorOf(Props[Coordinador](), "coordinador")
+  // Define un actor simple
+  class MiActor extends Actor {
+    def receive: Receive = {
+      case mensaje: String => println(s"Recibido: $mensaje")
+    }
+  }
 
-  // Inicia el proceso enviando un mensaje al coordinador
-  coordinador ! IniciarProceso
+  // Crea una instancia del actor
+  val miActor = system.actorOf(Props[MiActor](), "miActor")
+
+  // Envia un mensaje al actor
+  miActor ! "Hola, Akka!"
+
+  // Detiene el sistema de actores
+  system.terminate()
 }
