@@ -15,3 +15,6 @@ Este código en Scala utiliza el framework Akka para crear un sistema de actores
 7. **`system.terminate()`**: Detiene el sistema de actores después de enviar el mensaje. Esto es importante para cerrar de manera ordenada el sistema de actores y liberar los recursos.
 
 En resumen, el código establece un sistema de actores, define un actor simple (`MiActor`), crea una instancia de ese actor, envía un mensaje al actor y luego cierra el sistema de actores. El actor simplemente imprime en la consola cualquier mensaje de tipo `String` que reciba. Este es un ejemplo básico de cómo trabajar con actores en Akka.
+
+Supongamos que estás construyendo una aplicación web de seguimiento de tareas. Quieres que la lista de tareas se actualice automáticamente en la interfaz de usuario
+ cada vez que se agregue, complete o elimine una tarea.
