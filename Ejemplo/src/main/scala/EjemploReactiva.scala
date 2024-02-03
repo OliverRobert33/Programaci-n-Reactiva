@@ -6,7 +6,7 @@ object EjemploReactiva {
   @main
   def ejemplo(): Unit = {
 
-    // Oobservable
+    // Observable
     val cantidad: Observable[Int] = Observable.just(3, 4, 1, 3, 5, 1)
     val frutas: Observable[String] = Observable.just("Pera", "Sandia", "Papaya", "Uva", "Fresa", "Kiwi")
 
