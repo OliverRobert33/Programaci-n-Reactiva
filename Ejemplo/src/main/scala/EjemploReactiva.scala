@@ -1,6 +1,6 @@
+
 import io.reactivex.Observable
 import io.reactivex.*
-
 
 object EjemploReactiva {
   @main
@@ -22,7 +22,7 @@ object EjemploReactiva {
         x => println(s"Resultado: $x")
     }
 
-    // Esperar un momento
+    // Esperar un segundo
     Thread.sleep(1000)
 
     // Darse de baja de la suscripción
